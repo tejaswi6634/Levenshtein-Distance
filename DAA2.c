@@ -8,33 +8,28 @@ int minDistance(char* word1, char* word2, int** dp, char** operations) {
     int m = strlen(word1);
     int n = strlen(word2);
 int i,j;
-    // Initialize the table
     for (i = 0; i <= m; i++) {
         for (j = 0; j <= n; j++) {
-            // If one of the strings is empty, the edit distance is the length of the other string
             if (i == 0)
                 dp[i][j] = j;
             else if (j == 0)
                 dp[i][j] = i;
-            // If the characters are equal, no operation is needed
             else if (word1[i - 1] == word2[j - 1]) {
                 dp[i][j] = dp[i - 1][j - 1];
                 operations[i][j] = ' ';
             }
-            // If the characters are different, consider three operations: insert, delete, and replace
             else {
                 dp[i][j] = 1 + min(min(dp[i][j - 1], dp[i - 1][j]), dp[i - 1][j - 1]);
                 if (dp[i][j] == dp[i - 1][j - 1] + 1)
-                    operations[i][j] = 'S'; // Substitution
+                    operations[i][j] = 'S'; 
                 else if (dp[i][j] == dp[i][j - 1] + 1)
-                    operations[i][j] = 'I'; // Insertion
+                    operations[i][j] = 'I'; 
                 else
-                    operations[i][j] = 'D'; // Deletion
+                    operations[i][j] = 'D'; 
             }
         }
     }
 
-    // The bottom-right corner of the table contains the minimum edit distance
     return dp[m][n];
 }
 
@@ -63,8 +58,6 @@ int main() {
 
         int distance = minDistance(word1, word2, dp, operations);
         printf("Edit distance between '%s' and '%s' is: %d\n", word1, word2, distance);
-
-        // Displaying operations
         printf("Operations performed:\n");
         int i = m, j = n;
         while (i > 0 && j > 0) {
@@ -92,7 +85,7 @@ int main() {
             j--;
         }
     } else if (choice == 'S' || choice == 's') {
-        FILE* inFile = fopen("input.txt", "r"); // Open input file
+        FILE* inFile = fopen("input.txt", "r"); 
         if (!inFile) {
             fprintf(stderr, "Unable to open file input.txt");
             return 1;
@@ -100,12 +93,10 @@ int main() {
 
         char word1[100], word2[100];
 
-        // Read first word from file
         fscanf(inFile, "%s", word1);
-        // Read second word from file
         fscanf(inFile, "%s", word2);
 
-        fclose(inFile); // Close input file
+        fclose(inFile); 
 
         int m = strlen(word1);
         int n = strlen(word2);
@@ -120,7 +111,6 @@ int main() {
         int distance = minDistance(word1, word2, dp, operations);
         printf("Edit distance between '%s' and '%s' is: %d\n", word1, word2, distance);
 
-        // Displaying operations
         printf("Operations performed:\n");
         int i = m, j = n;
         while (i > 0 && j > 0) {
