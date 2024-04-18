@@ -2,32 +2,27 @@ def min_distance(word1, word2):
     m = len(word1)
     n = len(word2)
     
-    # Initialize the table
     dp = [[0] * (n + 1) for _ in range(m + 1)]
     operations = [[''] * (n + 1) for _ in range(m + 1)]
     
     for i in range(m + 1):
         for j in range(n + 1):
-            # If one of the strings is empty, the edit distance is the length of the other string
             if i == 0:
                 dp[i][j] = j
             elif j == 0:
                 dp[i][j] = i
-            # If the characters are equal, no operation is needed
             elif word1[i - 1] == word2[j - 1]:
                 dp[i][j] = dp[i - 1][j - 1]
                 operations[i][j] = ' '
-            # If the characters are different, consider three operations: insert, delete, and replace
-            else:
+           else:
                 dp[i][j] = 1 + min(dp[i][j - 1], dp[i - 1][j], dp[i - 1][j - 1])
                 if dp[i][j] == dp[i - 1][j - 1] + 1:
-                    operations[i][j] = 'S'  # Substitution
+                    operations[i][j] = 'S' 
                 elif dp[i][j] == dp[i][j - 1] + 1:
-                    operations[i][j] = 'I'  # Insertion
+                    operations[i][j] = 'I' 
                 else:
-                    operations[i][j] = 'D'  # Deletion
+                    operations[i][j] = 'D' 
     
-    # The bottom-right corner of the table contains the minimum edit distance
     return dp[m][n], operations
 
 def display_operations(word1, word2, operations):
@@ -63,7 +58,6 @@ if __name__ == "__main__":
         distance, operations = min_distance(word1, word2)
         print(f"Edit distance between '{word1}' and '{word2}' is: {distance}")
         
-        # Displaying operations
         print("Operations performed:")
         display_operations(word1, word2, operations)
         
@@ -76,7 +70,6 @@ if __name__ == "__main__":
             distance, operations = min_distance(word1, word2)
             print(f"Edit distance between '{word1}' and '{word2}' is: {distance}")
             
-            # Displaying operations
             print("Operations performed:")
             display_operations(word1, word2, operations)
             
